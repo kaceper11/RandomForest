@@ -26,7 +26,7 @@ j=1
 
 for(j in 1:5){
   i = 1000
-  for(i in 1:20000) {
+  for(i in (1:20)*1000) {
     set.seed(i) # ustawianie ziarna doboru
     train <- sample(nrow(d3), 0.70*nrow(d3), replace = FALSE) # stosunek zbioru trenuj¹cego do do waliduj¹cego
     TrainSet <- d3[train,]
@@ -38,7 +38,7 @@ for(j in 1:5){
     TrainSet$Dalc <- factor(TrainSet$Dalc); 
     model3 <- randomForest(Dalc ~ ., data = TrainSet, mtry = 3, ntree  = 500, importance = TRUE)
     predValid <- predict(model3, ValidSet, type = "class")
-    y[i] <- y[i] + mean(predValid == ValidSet$Dalc)
+    y[i/1000] <- y[i/1000] + mean(predValid == ValidSet$Dalc)
   
   }
 }
