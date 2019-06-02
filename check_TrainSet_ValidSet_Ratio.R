@@ -17,17 +17,7 @@ str(d3)
 summary(d3)
 
 set.seed(22000) # ustawianie ziarna doboru
-# train <- sample(nrow(d3), 0.70*nrow(d3), replace = FALSE) # stosunek zbioru trenuj9cego do do waliduj9cego
-# TrainSet <- d3[train,]
-# ValidSet <- d3[-train,]
-# summary(TrainSet)
-# summary(ValidSet)
-# 
-# levels(TrainSet$Dalc); 
-# TrainSet$Dalc <- factor(TrainSet$Dalc); 
-# 
-# 
-# mTry_factor=c()
+
 a <- (1:20)*0
 y <- (1:10)*0
 x <- (1:10)*0.1
