@@ -17,8 +17,29 @@ summary(d3)
 
 set.seed(22000) # ustawianie ziarna doboru
 train <- sample(nrow(d3), 1*nrow(d3), replace = FALSE) # stosunek zbioru trenuj¹cego do do waliduj¹cego
-TrainSet <- d3[train,]
-ValidSet <- d3[-train,]
+
+c <- ncol(TrainSet) #zliczamy zmienne kolumny
+#Intializing the vector which will contain the p-values of all variables
+pvalues <- numeric(c)
+# Getting the p-values
+for (i in 1:c)
+{
+  fit <- lm(TrainSet$Dalc ~ TrainSet[,i])  #sprawdzamy korelacjê przewidywanej zmiennej z konkretn¹ zmienn¹
+  summ <- summary(fit)
+  pvalues[i] <- summ$coefficients[2,4]
+}
+
+#ord stores the column number in order of increasing p-value
+ord <- order(pvalues) 
+#Getting the column numbers for top 10 features with the predictor salerprice
+ord <- ord[0:25]   #wybieramy liczbê najlepszych kolumn
+Dalc <- TrainSet[,'Dalc']
+TrainSet <- TrainSet[,ord]
+TrainSet <- cbind(TrainSet,Dalc)
+Dalc <- ValidSet[,'Dalc']
+ValidSet <- ValidSet[,ord]
+ValidSet <- cbind(ValidSet,Dalc)
+
 summary(TrainSet)
 summary(ValidSet)
 
@@ -26,7 +47,7 @@ levels(TrainSet$Dalc); # klasy który mamy przewidzieæ, 1 - ma³e spo¿ycie %, 5 - 
 TrainSet$Dalc <- factor(TrainSet$Dalc); # zmieniamy wartoœci z ci¹g³ych na dysktetne ¿eby móc skorzystaæ z klasyfikacji, w przeciwnym wypadku by³aby regresja
 
 
-model1 <- randomForest(Dalc ~ ., data = TrainSet, mtry = 3, ntree = 500, importance = TRUE, classwt = c(8E1,80E1,100E1,200E1,8000E1), sampsize = c(180,40,12,6,5))
+model1 <- randomForest(Dalc ~ ., data = TrainSet, mtry = 3, ntree = 500, importance = TRUE)
 model1
 
 importance(model1)        

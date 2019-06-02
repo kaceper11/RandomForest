@@ -26,7 +26,7 @@ levels(TrainSet$Dalc); # klasy który mamy przewidzieæ, 1 - ma³e spo¿ycie %, 5 - 
 TrainSet$Dalc <- factor(TrainSet$Dalc); # zmieniamy wartoœci z ci¹g³ych na dysktetne ¿eby móc skorzystaæ z klasyfikacji, w przeciwnym wypadku by³aby regresja
 
 
-model1 <- randomForest(Dalc ~ ., data = TrainSet, mtry = 3, ntree = 500, importance = TRUE, classwt = c(8E1,80E1,100E1,200E1,8000E1), sampsize = c(180,40,12,6,5))
+model1 <- randomForest(Dalc ~ ., data = TrainSet, mtry = 3, ntree = 500, importance = TRUE, classwt = c(8E1,80E1,100E1,200E1,8000E1))
 model1
 
 importance(model1)        
