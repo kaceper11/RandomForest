@@ -1,4 +1,4 @@
-#install.packages("randomForest") #odkomentuj aby zainstalowaf pakiet
+#install.packages("randomForest") #odkomentuj aby zainstalowa?? pakiet
 library(randomForest)
 
 
@@ -27,7 +27,7 @@ j=1
 for(j in 1:5){
   i = 0.1
   for (i in (1:10)*0.1) {
-    train <- sample(nrow(d3), 0.7*nrow(d3), replace = FALSE) # stosunek zbioru trenuj9cego do do waliduj9cego
+    train <- sample(nrow(d3), i*nrow(d3), replace = FALSE) # stosunek zbioru trenuj9cego do do waliduj9cego
     TrainSet <- d3[train,]
     ValidSet <- d3[-train,]
     summary(TrainSet)
