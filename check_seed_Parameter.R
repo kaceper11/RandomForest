@@ -19,14 +19,14 @@ summary(d3)
 
 seed_factor=c()
 a <- (1:40)*0
-y <- (1:20)*0
-x <- (1:20)*1000
+y <- (1:30)*0
+x <- (1:30)*1000
 i=1
 j=1
 
 for(j in 1:5){
   i = 1000
-  for(i in (1:20)*1000) {
+  for(i in (1:30)*1000) {
     set.seed(i) # ustawianie ziarna doboru
     train <- sample(nrow(d3), 0.70*nrow(d3), replace = FALSE) # stosunek zbioru trenuj¹cego do do waliduj¹cego
     TrainSet <- d3[train,]

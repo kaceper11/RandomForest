@@ -15,7 +15,7 @@ print(nrow(d3)) # 382 students
 str(d3)
 summary(d3)
 
-set.seed(29790) # ustawianie ziarna doboru
+set.seed(22000) # ustawianie ziarna doboru
 train <- sample(nrow(d3), 1*nrow(d3), replace = FALSE) # stosunek zbioru trenuj¹cego do do waliduj¹cego
 TrainSet <- d3[train,]
 ValidSet <- d3[-train,]
