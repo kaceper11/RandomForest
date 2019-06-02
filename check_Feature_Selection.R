@@ -3,11 +3,10 @@ library(randomForest)
 # Badamy parameter Dalc, 
 d1=read.table("student-mat.csv",sep=",",header=TRUE)
 d2=read.table("student-por.csv",sep=",",header=TRUE)
-d1 <- d1[-c(28:29)] # wycinamy zmienn¹ Walc, jest ona bardzo skorelowana, to prawie to samo
+d1 <- d1[-c(28:29)] # wycinamy zmiennï¿½ Walc, jest ona bardzo skorelowana, to prawie to samo
 d2 <- d2[-c(28:29)]
 
 d3=merge(d1,d2,by=c("school","sex","age","address","famsize","Pstatus","Medu","Fedu","Mjob","Fjob","reason","nursery","internet", "Dalc"))
-
 
 
 print(nrow(d3)) # 382 students
@@ -15,40 +14,66 @@ print(nrow(d3)) # 382 students
 str(d3)
 summary(d3)
 
-set.seed(22000) # ustawianie ziarna doboru
-train <- sample(nrow(d3), 1*nrow(d3), replace = FALSE) # stosunek zbioru trenuj¹cego do do waliduj¹cego
+set.seed(29790) # ustawianie ziarna doboru
+train <- sample(nrow(d3), 0.7*nrow(d3), replace = FALSE) # stosunek zbioru trenujï¿½cego do do walidujï¿½cego
+levels(train$Dalc); 
+train$Dalc <- factor(train$Dalc); 
+TrainSet <- d3[train,]
+ValidSet <- d3[-train,]
+
+
 
 c <- ncol(TrainSet) #zliczamy zmienne kolumny
 #Intializing the vector which will contain the p-values of all variables
 pvalues <- numeric(c)
 # Getting the p-values
+
 for (i in 1:c)
 {
-  fit <- lm(TrainSet$Dalc ~ TrainSet[,i])  #sprawdzamy korelacjê przewidywanej zmiennej z konkretn¹ zmienn¹
+  fit <- lm(TrainSet$Dalc ~ TrainSet[,i])  #sprawdzamy korelacjï¿½ przewidywanej zmiennej z konkretnï¿½ zmiennï¿½
   summ <- summary(fit)
   pvalues[i] <- summ$coefficients[2,4]
 }
 
 #ord stores the column number in order of increasing p-value
 ord <- order(pvalues) 
-#Getting the column numbers for top 10 features with the predictor salerprice
-ord <- ord[0:25]   #wybieramy liczbê najlepszych kolumn
-Dalc <- TrainSet[,'Dalc']
-TrainSet <- TrainSet[,ord]
-TrainSet <- cbind(TrainSet,Dalc)
-Dalc <- ValidSet[,'Dalc']
-ValidSet <- ValidSet[,ord]
-ValidSet <- cbind(ValidSet,Dalc)
+a <- (1:16)*0
 
-summary(TrainSet)
-summary(ValidSet)
+tempTrainSet <- TrainSet
+tempValidSet <- ValidSet
+tempOrd <- ord
 
-levels(TrainSet$Dalc); # klasy który mamy przewidzieæ, 1 - ma³e spo¿ycie %, 5 - du¿e
-TrainSet$Dalc <- factor(TrainSet$Dalc); # zmieniamy wartoœci z ci¹g³ych na dysktetne ¿eby móc skorzystaæ z klasyfikacji, w przeciwnym wypadku by³aby regresja
+for(k in 1:10){
+for(j in (1:16)*3){
+  
+  #Getting the column numbers for top 10 features with the predictor salerprice
+  tempOrd <- ord[0:j]   #wybieramy liczbï¿½ najlepszych kolumn
+  Dalc <- TrainSet[,'Dalc']
+  tempTrainSet <- TrainSet[,tempOrd]
+  tempTrainSet <- cbind(tempTrainSet,Dalc)
+  Dalc <- ValidSet[,'Dalc']
+  tempValidSet <- ValidSet[,tempOrd]
+  tempValidSet <- cbind(tempValidSet,Dalc)
+  
+  summary(tempTrainSet)
+  summary(tempValidSet)
+  
+  tempTrainSet$Dalc <- factor(tempTrainSet$Dalc); 
+  tempValidSet$Dalc <- factor(tempValidSet$Dalc); 
 
+  
+  model1 <- randomForest(Dalc ~ ., data = tempTrainSet, importance = TRUE)
+  model1
+  
+  predValid <- predict(model1, tempValidSet, type = "class")
+  a[j/3] <- a[j/3] + mean(predValid == tempValidSet$Dalc)
+  
+}
+}
+a <- a/10
+a
 
-model1 <- randomForest(Dalc ~ ., data = TrainSet, mtry = 3, ntree = 500, importance = TRUE)
-model1
+plot((1:16)*3,a, main="Evaluation of top features selection",
+     ylab="Accuracy", xlab="Number of used (top) features")
 
-importance(model1)        
-varImpPlot(model1)     
+   
