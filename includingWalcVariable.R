@@ -1,4 +1,4 @@
-#install.packages("randomForest") #odkomentuj aby zainstalowa? pakiet
+#install.packages("randomForest") #odkomentowa?? aby zainstalowa?? pakiet
 library(randomForest)
 
 
@@ -17,13 +17,13 @@ d3W=merge(d1W,d2W,by=c("school","sex","age","address","famsize","Pstatus","Medu"
 set.seed(29790) # ustawianie ziarna doboru
 
 
-#Tworzymy dla osobne modele dla przypadku z zmienną walc oraz bez niej
-#Celem tego testy jest sprawdzenie co się stanie jak dodamy silnie skorelowaną zmienną
+#Tworzymy dla osobne modele dla przypadku z zmienn?? walc oraz bez niej
+#Celem tego testy jest sprawdzenie co si?? stanie jak dodamy silnie skorelowan?? zmienn??
 train <- sample(nrow(d3), 0.70*nrow(d3), replace = FALSE) # stosunek zbioru trenuj?cego do do waliduj?cego
 TrainSet <- d3[train,]
 ValidSet <- d3[-train,]
 
-trainW <- sample(nrow(d3W), 0.70*nrow(d3W), replace = FALSE) # stosunek zbioru trenuj?cego do do waliduj?cego
+trainW <- sample(nrow(d3W), 0.70*nrow(d3W), replace = FALSE) # stosunek zbioru trenuj??cego do do waliduj??cego
 TrainSetW <- d3W[trainW,]
 ValidSetW <- d3W[-trainW,]
 
@@ -40,24 +40,24 @@ withWalc <- 0
 
 
 for(j in 1:20){
-
-    #model excluded
-    model3 <- randomForest(Dalc ~ ., data = TrainSet, importance = TRUE)
-    predValid <- predict(model3, ValidSet, type = "class")
-    withoutWalc <- withoutWalc + mean(predValid == ValidSet$Dalc)
-
-    #model included
-    model4 <- randomForest(Dalc ~ ., data = TrainSetW, importance = TRUE)
-    predValidW <- predict(model4, ValidSetW, type = "class")
-    withWalc <- withWalc + mean(predValidW == ValidSetW$Dalc)
-
+  
+  #model excluded
+  model3 <- randomForest(Dalc ~ ., data = TrainSet, importance = TRUE)
+  predValid <- predict(model3, ValidSet, type = "class")
+  withoutWalc <- withoutWalc + mean(predValid == ValidSet$Dalc)
+  
+  #model included
+  model4 <- randomForest(Dalc ~ ., data = TrainSetW, importance = TRUE)
+  predValidW <- predict(model4, ValidSetW, type = "class")
+  withWalc <- withWalc + mean(predValidW == ValidSetW$Dalc)
+  
 }
 
 withoutWalc <- withoutWalc / 20
 withWalc <- withWalc / 20
 x <- c(withoutWalc, withWalc)
 
-#wykres słupkowy
+#wykres s??upkowy
 barplot(x, main="Influence of Workday \nAlcohol Consumtion", ylab="Accuracy",
         names.arg=c("Excluded", "Included"))
 

@@ -22,8 +22,8 @@ ValidSet <- d3[-train,]
 summary(TrainSet)
 summary(ValidSet)
 
-levels(TrainSet$Dalc); # klasy ktsry mamy przewidzief, 1 - ma3e spo?ycie %, 5 - du?e
-TrainSet$Dalc <- factor(TrainSet$Dalc); # zmieniamy wartoci z ci9g3ych na dysktetne ?eby msc skorzystaf z klasyfikacji, w przeciwnym wypadku by3aby regresja
+levels(TrainSet$Dalc); # klasy ktsry mamy przewidzief, 1 - ma3e spożycie %, 5 - duże
+TrainSet$Dalc <- factor(TrainSet$Dalc); # zmieniamy wartości z ciągłych na dysktetne ?eby msc skorzystać z klasyfikacji, w przeciwnym wypadku by3aby regresja
 
 
 model1 <- randomForest(Dalc ~ ., data = TrainSet, mtry = 3, ntree = 500, importance = TRUE, classwt = c(8E1,80E1,100E1,200E1,8000E1), sampsize = c(180,40,12,6,5))
