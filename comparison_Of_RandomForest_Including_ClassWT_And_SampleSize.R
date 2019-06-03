@@ -64,19 +64,19 @@ withSampleSize <- withSampleSize/20
 x <- c(withoutClassWtAndSampleSize, withClassWtAndSampleSize, withClassWt, withSampleSize)
 
 #wykres s³upkowy
-barplot(x, main="Influence of Workday \nAlcohol Consumtion", ylab="Accuracy",
-        names.arg=c("without both", "with both", "classwt", "sampsize"))
+barplot(x, main="Influence of Workday \nAlcohol Consumtion", ylab="Accuracy", las=3,
+        names.arg=c("not both", "both", "classWt", "sampsize"))
 
 #importance of variables
-importance(model1)     #model without classWT and Samplesize
+importance(model1)     #model without classWT and Samplesize  
 varImpPlot(model1)
 
-importance(model2)     #model with classWt and SampleSize
+importance(model2)     #model with classWt and SampleSize 
 varImpPlot(model2)
 
-importance(model3)     #model with classWt and without SampleSize
+importance(model3)     #model with classWt and without SampleSize 
 varImpPlot(model3)
 
-importance(model4)     #model with SampleSize and without ClassWt
+importance(model4)     #model with SampleSize and without ClassWt 
 varImpPlot(model4)
 

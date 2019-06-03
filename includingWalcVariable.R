@@ -18,7 +18,7 @@ set.seed(29790) # ustawianie ziarna doboru
 
 
 #Tworzymy dla osobne modele dla przypadku z zmienn?? walc oraz bez niej
-#Celem tego testy jest sprawdzenie co si?? stanie jak dodamy silnie skorelowan?? zmienn??
+#Celem tego testu jest sprawdzenie co si?? stanie jak dodamy silnie skorelowan?? zmienn??
 train <- sample(nrow(d3), 0.70*nrow(d3), replace = FALSE) # stosunek zbioru trenuj?cego do do waliduj?cego
 TrainSet <- d3[train,]
 ValidSet <- d3[-train,]
