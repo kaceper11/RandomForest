@@ -1,11 +1,11 @@
-#install.packages("randomForest") #odkomentowaæ aby zainstalowaæ pakiet
+#install.packages("randomForest") #odkomentowaÄ‡ aby zainstalowaÄ‡ pakiet
 library(randomForest)
 
 
 # Badamy parameter Dalc, 
 d1=read.table("student-mat.csv",sep=",",header=TRUE)
 d2=read.table("student-por.csv",sep=",",header=TRUE)
-d1 <- d1[-c(28:29)] # wycinamy zmienn¹ Walc, jest ona bardzo skorelowana, to prawie to samo
+d1 <- d1[-c(28:29)] # wycinamy zmienn9 Walc, jest ona bardzo skorelowana, to prawie to samo
 d2 <- d2[-c(28:29)]
 
 d3=merge(d1,d2,by=c("school","sex","age","address","famsize","Pstatus","Medu","Fedu","Mjob","Fjob","reason","nursery","internet", "Dalc"))
@@ -17,7 +17,7 @@ str(d3)
 summary(d3)
 
 set.seed(22000) # ustawianie ziarna doboru
-train <- sample(nrow(d3), 0.90*nrow(d3), replace = FALSE) # stosunek zbioru trenuj9cego do do waliduj9cego
+train <- sample(nrow(d3), 0.90*nrow(d3), replace = FALSE) # stosunek zbioru trenujÄ…cego do do walidujÄ…cego
 TrainSet <- d3[train,]
 ValidSet <- d3[-train,]
 summary(TrainSet)
@@ -63,7 +63,7 @@ withSampleSize <- withSampleSize/20
 
 x <- c(withoutClassWtAndSampleSize, withClassWtAndSampleSize, withClassWt, withSampleSize)
 
-#wykres s³upkowy
+#wykres s3upkowy
 barplot(x, main="Influence of Workday \nAlcohol Consumtion", ylab="Accuracy", las=3,
         names.arg=c("not both", "both", "classWt", "sampsize"))
 

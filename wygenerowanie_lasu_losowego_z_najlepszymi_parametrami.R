@@ -1,9 +1,10 @@
+#install.packages("randomForest") #odkomentować aby zainstalować pakiet
 library(randomForest)
 
 # Badamy parameter Dalc, 
 d1=read.table("student-mat.csv",sep=",",header=TRUE)
 d2=read.table("student-por.csv",sep=",",header=TRUE)
-d1 <- d1[-c(28:29)] # wycinamy zmienn9 Walc, jest ona bardzo skorelowana, to prawie to samo
+d1 <- d1[-c(28:29)] # wycinamy zmienną Walc, jest ona bardzo skorelowana, to prawie to samo
 d2 <- d2[-c(28:29)]
 
 d3=merge(d1,d2,by=c("school","sex","age","address","famsize","Pstatus","Medu","Fedu","Mjob","Fjob","reason","nursery","internet", "Dalc"))
@@ -22,8 +23,8 @@ ValidSet <- d3[-train,]
 summary(TrainSet)
 summary(ValidSet)
 
-levels(TrainSet$Dalc); # klasy ktsry mamy przewidzief, 1 - ma3e spoE<ycie %, 5 - duE<e
-TrainSet$Dalc <- factor(TrainSet$Dalc); # zmieniamy wartoEci z ciDgEych na dysktetne ?eby msc skorzystaD z klasyfikacji, w przeciwnym wypadku by3aby regresja
+levels(TrainSet$Dalc); # klasy które mamy przewidzieć, 1 - małe spożycie %, 5 - duże
+TrainSet$Dalc <- factor(TrainSet$Dalc); # zmieniamy wartości z ciągłych na dysktetne żeby msc skorzystać z klasyfikacji, w przeciwnym wypadku byłaby regresja
 
 
 model1 <- randomForest(Dalc ~ ., data = TrainSet, mtry = 3, ntree = 500, importance = TRUE)

@@ -1,11 +1,11 @@
-#install.packages("randomForest") #odkomentuj aby zainstalowa?? pakiet
+#install.packages("randomForest")  #odkomentać aby zainstalować pakiet
 library(randomForest)
 
 
 # Badamy parameter Dalc, 
 d1=read.table("student-mat.csv",sep=",",header=TRUE)
 d2=read.table("student-por.csv",sep=",",header=TRUE)
-d1 <- d1[-c(28:29)] # wycinamy zmienn9 Walc, jest ona bardzo skorelowana, to prawie to samo
+d1 <- d1[-c(28:29)] # wycinamy zmienną Walc, jest ona bardzo skorelowana, to prawie to samo
 d2 <- d2[-c(28:29)]
 
 d3=merge(d1,d2,by=c("school","sex","age","address","famsize","Pstatus","Medu","Fedu","Mjob","Fjob","reason","nursery","internet", "Dalc"))
@@ -27,7 +27,7 @@ j=1
 for(j in 1:5){
   i = 0.1
   for (i in (1:10)*0.1) {
-    train <- sample(nrow(d3), i*nrow(d3), replace = FALSE) # stosunek zbioru trenuj9cego do do waliduj9cego
+    train <- sample(nrow(d3), i*nrow(d3), replace = FALSE) # stosunek zbioru trenującego do do walidującego
     TrainSet <- d3[train,]
     ValidSet <- d3[-train,]
     summary(TrainSet)
@@ -49,4 +49,4 @@ y <- y/5
 plot(x,y, main="Evaluation of ratio parameter",
      ylab="Accuracy", xlab="ratio value")
 
-#Najgorszy wynik dla ratio = 0.1
+#Najlepszy wynik dla ratio = 0.9

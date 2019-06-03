@@ -1,11 +1,11 @@
-#install.packages("randomForest") #odkomentuj aby zainstalowaæ pakiet
+#install.packages("randomForest")  #odkomentaÄ‡ aby zainstalowaÄ‡ pakiet
 library(randomForest)
 
 
 # Badamy parameter Dalc, 
 d1=read.table("student-mat.csv",sep=",",header=TRUE)
 d2=read.table("student-por.csv",sep=",",header=TRUE)
-d1 <- d1[-c(28:29)] # wycinamy zmienn¹ Walc, jest ona bardzo skorelowana, to prawie to samo
+d1 <- d1[-c(28:29)] # wycinamy zmiennÄ… Walc, jest ona bardzo skorelowana, to prawie to samo
 d2 <- d2[-c(28:29)]
 
 d3=merge(d1,d2,by=c("school","sex","age","address","famsize","Pstatus","Medu","Fedu","Mjob","Fjob","reason","nursery","internet", "Dalc"))
@@ -28,7 +28,7 @@ for(j in 1:5){
   i = 1000
   for(i in (1:30)*1000) {
     set.seed(i) # ustawianie ziarna doboru
-    train <- sample(nrow(d3), 0.70*nrow(d3), replace = FALSE) # stosunek zbioru trenuj¹cego do do waliduj¹cego
+    train <- sample(nrow(d3), 0.70*nrow(d3), replace = FALSE) # stosunek zbioru trenujÄ…cego do do walidujÄ…cego
     TrainSet <- d3[train,]
     ValidSet <- d3[-train,]
     summary(TrainSet)
@@ -48,4 +48,4 @@ y <- y/5
 plot(x,y, main="Evaluation of seed parameter",
      ylab="Accuracy", xlab="seed value")
 
-#Najlepszy wynik dla seed = 
+#Najlepszy wynik dla seed = 22000

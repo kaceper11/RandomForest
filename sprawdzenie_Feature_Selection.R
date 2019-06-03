@@ -1,9 +1,10 @@
+#install.packages("randomForest") #odkomentać aby zainstalować pakiet
 library(randomForest)
 
-# Badamy parameter Dalc, 
+# Badamy parametr Dalc, 
 d1=read.table("student-mat.csv",sep=",",header=TRUE)
 d2=read.table("student-por.csv",sep=",",header=TRUE)
-d1 <- d1[-c(28:29)] # wycinamy zmienn� Walc, jest ona bardzo skorelowana, to prawie to samo
+d1 <- d1[-c(28:29)] # wycinamy zmienną Walc, jest ona bardzo skorelowana, to prawie to samo
 d2 <- d2[-c(28:29)]
 
 d3=merge(d1,d2,by=c("school","sex","age","address","famsize","Pstatus","Medu","Fedu","Mjob","Fjob","reason","nursery","internet", "Dalc"))
@@ -15,7 +16,7 @@ str(d3)
 summary(d3)
 
 set.seed(29790) # ustawianie ziarna doboru
-train <- sample(nrow(d3), 0.7*nrow(d3), replace = FALSE) # stosunek zbioru trenuj�cego do do waliduj�cego
+train <- sample(nrow(d3), 0.7*nrow(d3), replace = FALSE) # stosunek zbioru trenującego do do walidującego
 levels(train$Dalc); 
 train$Dalc <- factor(train$Dalc); 
 TrainSet <- d3[train,]
@@ -30,7 +31,7 @@ pvalues <- numeric(c)
 
 for (i in 1:c)
 {
-  fit <- lm(TrainSet$Dalc ~ TrainSet[,i])  #sprawdzamy korelacj� przewidywanej zmiennej z konkretn� zmienn�
+  fit <- lm(TrainSet$Dalc ~ TrainSet[,i])  #sprawdzamy korelacjo?= przewidywanej zmiennej z konkretno?= zmienno?=
   summ <- summary(fit)
   pvalues[i] <- summ$coefficients[2,4]
 }
@@ -47,7 +48,7 @@ for(k in 1:10){
 for(j in (1:16)*3){
   
   #Getting the column numbers for top 10 features with the predictor salerprice
-  tempOrd <- ord[0:j]   #wybieramy liczb� najlepszych kolumn
+  tempOrd <- ord[0:j]   #wybieramy liczbę najlepszych kolumn
   Dalc <- TrainSet[,'Dalc']
   tempTrainSet <- TrainSet[,tempOrd]
   tempTrainSet <- cbind(tempTrainSet,Dalc)

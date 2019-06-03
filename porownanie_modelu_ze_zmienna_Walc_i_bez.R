@@ -1,4 +1,4 @@
-#install.packages("randomForest") #odkomentowa?? aby zainstalowa?? pakiet
+#install.packages("randomForest") #odkomentować aby zainstalować pakiet
 library(randomForest)
 
 
@@ -7,7 +7,7 @@ d1=read.table("student-mat.csv",sep=",",header=TRUE)
 d2=read.table("student-por.csv",sep=",",header=TRUE)
 d1W <-d1
 d2W <-d2
-d1 <- d1[-c(28:29)] # wycinamy zmienn? Walc, jest ona bardzo skorelowana, to prawie to samo
+d1 <- d1[-c(28:29)] # wycinamy zmienną Walc, jest ona bardzo skorelowana, to prawie to samo
 d2 <- d2[-c(28:29)]
 
 d3=merge(d1,d2,by=c("school","sex","age","address","famsize","Pstatus","Medu","Fedu","Mjob","Fjob","reason","nursery","internet", "Dalc"))
@@ -23,7 +23,7 @@ train <- sample(nrow(d3), 0.70*nrow(d3), replace = FALSE) # stosunek zbioru tren
 TrainSet <- d3[train,]
 ValidSet <- d3[-train,]
 
-trainW <- sample(nrow(d3W), 0.70*nrow(d3W), replace = FALSE) # stosunek zbioru trenuj??cego do do waliduj??cego
+trainW <- sample(nrow(d3W), 0.70*nrow(d3W), replace = FALSE) # stosunek zbioru trenującego do do walidującego
 TrainSetW <- d3W[trainW,]
 ValidSetW <- d3W[-trainW,]
 

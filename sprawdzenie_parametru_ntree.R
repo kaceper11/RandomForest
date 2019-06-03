@@ -1,4 +1,4 @@
-#install.packages("randomForest") #odkomenta?? aby zainstalowaf pakiet
+#install.packages("randomForest") #odkomenta?? aby zainstalowa?? pakiet
 library(randomForest)
 
 
@@ -17,7 +17,7 @@ str(d3)
 summary(d3)
 
 set.seed(29790) # ustawianie ziarna doboru
-train <- sample(nrow(d3), 0.70*nrow(d3), replace = FALSE) # stosunek zbioru trenuj9cego do do waliduj9cego
+train <- sample(nrow(d3), 0.70*nrow(d3), replace = FALSE) # stosunek zbioru trenuj??cego do do waliduj??cego
 TrainSet <- d3[train,]
 ValidSet <- d3[-train,]
 summary(TrainSet)
@@ -26,24 +26,25 @@ summary(ValidSet)
 levels(TrainSet$Dalc); 
 TrainSet$Dalc <- factor(TrainSet$Dalc); 
 
-
-mTry_factor=c()
-a <- (1:20)*0
-y <- (1:20)*0
+nTree_factor=c()
+a <- (1:10)*0
+y <- (1:10)*0
+x <- (1:10) * 100
 i=1
 j=1
 
-for(j in 1:5){
+for(j in 1:20){
   i = 1
-  for (i in 1:20) {
-    model3 <- randomForest(Dalc ~ ., data = TrainSet, mtry = i, importance = TRUE)
+  for (i in 1:10) {
+    model3 <- randomForest(Dalc ~ ., data = TrainSet, ntree = x[i], importance = TRUE)
     predValid <- predict(model3, ValidSet, type = "class")
     y[i] <- y[i] + mean(predValid == ValidSet$Dalc)
   }
 }
-y <- y/5
 
-plot(1:20,y, main="Evaluation of mtry parameter",
-     ylab="Accuracy", xlab="mtry value")
+y <- y/20
 
-#Najlepszy wynik dla mtry = 3
+plot(x,y, main="Evaluation of ntree parameter",
+     ylab="Accuracy", xlab="ntree value")
+
+#Najlepszy wynik dla ntree = 500

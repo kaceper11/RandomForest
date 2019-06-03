@@ -1,8 +1,8 @@
-#install.packages("randomForest") #odkomentowa?? aby zainstalowa?? pakiet
+#install.packages("randomForest") #odkomenta?? aby zainstalowa?? pakiet
 library(randomForest)
 
 
-# Badamy parameter Dalc, 
+# Badamy parametr Dalc, 
 d1=read.table("student-mat.csv",sep=",",header=TRUE)
 d2=read.table("student-por.csv",sep=",",header=TRUE)
 d1 <- d1[-c(28:29)] # wycinamy zmienn?? Walc, jest ona bardzo skorelowana, to prawie to samo
@@ -26,25 +26,24 @@ summary(ValidSet)
 levels(TrainSet$Dalc); 
 TrainSet$Dalc <- factor(TrainSet$Dalc); 
 
-nTree_factor=c()
-a <- (1:10)*0
-y <- (1:10)*0
-x <- (1:10) * 100
+
+mTry_factor=c()
+a <- (1:20)*0
+y <- (1:20)*0
 i=1
 j=1
 
-for(j in 1:20){
+for(j in 1:5){
   i = 1
-  for (i in 1:10) {
-    model3 <- randomForest(Dalc ~ ., data = TrainSet, ntree = x[i], importance = TRUE)
+  for (i in 1:20) {
+    model3 <- randomForest(Dalc ~ ., data = TrainSet, mtry = i, importance = TRUE)
     predValid <- predict(model3, ValidSet, type = "class")
     y[i] <- y[i] + mean(predValid == ValidSet$Dalc)
   }
 }
+y <- y/5
 
-y <- y/20
+plot(1:20,y, main="Evaluation of mtry parameter",
+     ylab="Accuracy", xlab="mtry value")
 
-plot(x,y, main="Evaluation of ntree parameter",
-     ylab="Accuracy", xlab="ntree value")
-
-#Najlepszy wynik dla ntree = 500
+#Najlepszy wynik dla mtry = 3
